@@ -1,0 +1,68 @@
+-- Hub GUI Script
+local player = game.Players.LocalPlayer
+
+-- Create GUI
+local gui = Instance.new("ScreenGui")
+gui.Name = "HubGUI"
+gui.Parent = player:WaitForChild("PlayerGui")
+gui.ResetOnSpawn = false
+
+-- Main Frame
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 250, 0, 170)
+frame.Position = UDim2.new(0.5, -125, 0.5, -85)
+frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.Parent = gui
+
+-- Title
+local title = Instance.new("TextLabel")
+title.Size = UDim2.new(1, 0, 0, 30)
+title.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+title.Text = "Hub"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 20
+title.Parent = frame
+
+-- Button: Enable Owner Panel [OP]
+local button1 = Instance.new("TextButton")
+button1.Size = UDim2.new(0, 200, 0, 40)
+button1.Position = UDim2.new(0.5, -100, 0, 40)
+button1.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+button1.Text = "Enable Owner Panel [OP]"
+button1.TextColor3 = Color3.fromRGB(255, 255, 255)
+button1.Font = Enum.Font.SourceSans
+button1.TextSize = 18
+button1.Parent = frame
+
+button1.MouseButton1Click:Connect(function()
+    local mainGui = player:WaitForChild("PlayerGui"):FindFirstChild("Main")
+    if mainGui and mainGui:FindFirstChild("Right") then
+        local right = mainGui.Right
+        if right:FindFirstChild("Content") and right.Content:FindFirstChild("Owner") then
+            right.Content.Owner.Visible = true
+        end
+    end
+end)
+
+-- Button: Set Huge Mutation
+local button2 = Instance.new("TextButton")
+button2.Size = UDim2.new(0, 200, 0, 40)
+button2.Position = UDim2.new(0.5, -100, 0, 90)
+button2.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+button2.Text = "Set Huge Mutation"
+button2.TextColor3 = Color3.fromRGB(255, 255, 255)
+button2.Font = Enum.Font.SourceSans
+button2.TextSize = 18
+button2.Parent = frame
+
+button2.MouseButton1Click:Connect(function()
+    local args = {
+        [1] = "mutation",
+        [2] = "Huge"
+    }
+    game:GetService("ReplicatedStorage").Packages.Net:FindFirstChild("RF/Pick/AnimalOwner"):InvokeServer(unpack(args))
+end)
